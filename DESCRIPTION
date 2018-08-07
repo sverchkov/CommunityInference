@@ -2,8 +2,7 @@ Package: CommunityInference
 Type: Package
 Title: Community Inference for Weighted Graphs
 Version: 0.1.0
-Authors@R: c(
-  person("Yuriy", "Sverchkov", email = "yuriy.sverchkov@wisc.edu", role = c("aut", "cre"))
+Authors@R: person("Yuriy", "Sverchkov", email = "yuriy.sverchkov@wisc.edu", role = c("aut", "cre"))
 Description: R package implementing common community inference algorithms for weighted graphs.
 License: MIT + file LICENSE
 Encoding: UTF-8
