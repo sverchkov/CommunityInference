@@ -11,6 +11,7 @@ RoxygenNote: 6.1.0
 Depends: R (>= 3.0.0)
 Imports:
   dplyr (>= 0.7),
+  Matrix (>= 1.2),
   futile.logger (>= 1.4)
 Suggests:
-  testthat (>= 2.0.0)
+    testthat
