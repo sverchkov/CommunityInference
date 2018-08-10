@@ -4,7 +4,7 @@
 \alias{inferCommunitiesASLP}
 \title{Community detection, asynchronous label propagation}
 \usage{
-inferCommunitiesASLP(edges)
+inferCommunitiesASLP(edges_df = NULL, adj_mat = NULL)
 }
 \arguments{
 \item{unique_edges}{a data frame with columns a, b, weight representing the connections between nodes.

@@ -9,4 +9,3 @@ test_that("ZKC example gives cinsistent result", {
   expect_equal( length( unique( zkc_lp$label ) ), 3 )
   expect_equal( length( unique( zkc_lp$label[ zkc_lp$node %in% c(1, 34, 17) ])), 3 )
 })
-

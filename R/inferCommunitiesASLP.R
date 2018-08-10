@@ -11,30 +11,28 @@
 #' @return a list of two vectors,
 #' node--node id (taken from a, b of input) and
 #' label--unique cluster/community ID.
-#' @import Matrix
 #' @import futile.logger
 #' @author Yuriy Sverchkov
 #' @export
-inferCommunitiesASLP <- function( edges ){
+inferCommunitiesASLP <- function( edges_df = NULL, adj_mat = NULL ){
 
-  flog.trace( "Counting nodes..." )
+  if ( is.null ( adj_mat ) ){
+    flog.trace( "Counting nodes..." )
 
-  # First we get a sorted list of all node IDs
-  nodes <- sort( unique( c( edges$a, edges$b ) ) )
-  n <- length( nodes )
+    # First we get a sorted list of all node IDs
+    nodes <- getUniqueNodesFromEdgesDF( edges_df )
+    n <- length( nodes )
+
+    flog.trace( "Making weight matrix..." )
+    adj_mat <- adjacencyMatFromDF( edges_df, nodes )
+
+  } else {
+    n <- nrow( adj_mat )
+    if ( is.null( nodes <- rownames( adj_mat ) ) ) nodes <- 1:n
+  }
+
   # Starting labels
   labels <- 1:n
-
-  flog.trace( "Making weight matrix..." )
-
-  # We're going to store the weights in a matrix
-  # Figure out if matrix should be sparse
-  neighbors <- Matrix( data = 0.0, nrow = n, ncol = n, sparse = ( nrow(edges)*2 > n^2/3 ) )
-  for ( row in 1:nrow( edges ) ){
-    i <-  which( nodes == edges$a[row] )
-    j <-  which( nodes == edges$b[row] )
-    neighbors[i,j] <- ( neighbors[j,i] <- edges$weight[row] )
-  }
 
   old_labels <- -1
   while ( any( old_labels != labels ) ) {
@@ -53,7 +51,7 @@ inferCommunitiesASLP <- function( edges ){
 
     for ( i in voting_order ){
       votes <- numeric( l )
-      for ( j in 1:n ) votes[ labels[ j ] ] <- votes[ labels[ j ] ] + neighbors[ i, j ]
+      for ( j in 1:n ) votes[ labels[ j ] ] <- votes[ labels[ j ] ] + adj_mat[ i, j ]
       winners <- which( votes == max( votes ) )
 
       # Label update
