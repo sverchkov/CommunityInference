@@ -17,7 +17,7 @@ adjacencyMatFromDF <- function( edges, nodes = NULL, cluster = NULL ) {
 
   # Check if we want a sparse matrix
   if ( ( nrow(edges)*2 < n^2/3 ) && ( "Matrix" %in% installed.packages()[,"Package"] ) ) {
-    adj_mat <- Matrix::sparseMatrix( i = edges$a, j = edges$b, x = edges$weight,
+    adj_mat <- Matrix::sparseMatrix( i = match( edges$a, nodes ), j = match( edges$b, nodes ), x = edges$weight,
                                      dims = c(n,n), use.last.ij = T, symmetric = T )
   } else {
     if( is.null( cluster ) )
